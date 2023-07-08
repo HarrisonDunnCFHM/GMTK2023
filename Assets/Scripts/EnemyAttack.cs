@@ -23,8 +23,8 @@ public class EnemyAttack : MonoBehaviour
 
     private void OnMouseDown()
     {
-        used = true;
-        attackPicker.UseAttack(myAttackAtributes.strength, myAttackAtributes.element);
+        if (used) { return; }
+        attackPicker.UseAttack(this, myAttackAtributes.strength, myAttackAtributes.element);
     }
 
     private void DisplayUsedStatus()

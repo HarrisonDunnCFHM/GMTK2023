@@ -15,6 +15,7 @@ public class DeckManager : MonoBehaviour
         if (FindObjectOfType<BattleSequence>())
         {
             GenerateBattleDeck();
+            FindObjectOfType<BattleSequence>().UpdatePlayerDeckCount();
         }
     }
 
@@ -22,7 +23,7 @@ public class DeckManager : MonoBehaviour
     {
         if (PlayerData.deckList == null)
         {
-            deckList = new List<PlayerCardAttributes>();
+            //deckList = new List<PlayerCardAttributes>();
         }
         else if (PlayerData.deckList.Count >= 0)
         {
@@ -30,7 +31,7 @@ public class DeckManager : MonoBehaviour
         }
         else
         {
-            deckList = new List<PlayerCardAttributes>();
+            //deckList = new List<PlayerCardAttributes>();
         }
     }
 
@@ -38,7 +39,6 @@ public class DeckManager : MonoBehaviour
     {
         if(battleDeckList.Count <= 0) { return null; }
         PlayerCardAttributes cardToReturn = battleDeckList[0];
-        Debug.Log("returning " + cardToReturn.ToString());
         battleDeckList.Remove(battleDeckList[0]);
         return cardToReturn;
     }

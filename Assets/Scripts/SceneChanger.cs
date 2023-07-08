@@ -28,15 +28,18 @@ public class SceneChanger : MonoBehaviour
 
     public void StartNewGame()
     {
-        PlayerData.lives = PlayerData.startingLives;
-        PlayerData.runProgress = 0;
-        PlayerData.ClearDeckList();
+        PlayerData.StartNewRun();
         LoadMapScene();
     }
 
     public void ContinueGame()
     {
         PlayerData.LoadFromPlayerPrefs();
+    }
+
+    public void LoadMainMenu()
+    {
+        SceneManager.LoadScene(0);
     }
 
     public void LoadMapScene()
@@ -48,5 +51,4 @@ public class SceneChanger : MonoBehaviour
     {
         SceneManager.LoadScene(2);
     }
-
 }

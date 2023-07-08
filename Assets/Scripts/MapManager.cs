@@ -12,16 +12,26 @@ public class MapManager : MonoBehaviour
 
     public int currentLives;
     [SerializeField] TextMeshProUGUI currentLivesText;
+    public int currentWins;
+    [SerializeField] TextMeshProUGUI currentWinsText;
+    public int deckSize;
+    [SerializeField] TextMeshProUGUI currentDeckSizeText;
+
+    [SerializeField] int winsNeededToComplete = 5;
+    [SerializeField] GameObject successfulRunPopUp;
+    public bool runOver = false;
 
     [SerializeField] GameObject offerMenu;
     [SerializeField] float deckSpacingModifier;
     [SerializeField] float cardSpacingModifier;
     [SerializeField] GameObject cardThumbPrefab;
+    [SerializeField] GameObject cardFullPrefab;
     [SerializeField] GameObject selectButtonPrefab;
     [SerializeField] Canvas mainCanvas;
     [SerializeField] int maxBattles = 3;
 
-    List<DeckList> decks;
+    List<DeckList> deckOffer;
+    List<PlayerCardAttributes> cardOffer;
     public List<BattleAttributes> battles;
 
     SceneChanger sceneChanger;
@@ -30,67 +40,78 @@ public class MapManager : MonoBehaviour
     void Start()
     {
         sceneChanger = FindObjectOfType<SceneChanger>();
-
-
+        if (CheckForSuccessfulRun()) { return;}
         SetUpPlayerData();
     }
     
+    private bool CheckForSuccessfulRun()
+    {
+        if (PlayerData.winsThisRun >= winsNeededToComplete)
+        {
+            //good job!
+            successfulRunPopUp.SetActive(true);
+            return true;
+        }
+        return false;
+    }
+
     private void SetUpPlayerData()
     {
         if (deckManager == null) { deckManager = FindObjectOfType<DeckManager>(); }
         if (PlayerData.runProgress == 0)
         {
-            currentLives = PlayerData.lives;
-            currentLivesText.text = currentLives.ToString() + " lives";
             PresentNewStartingDecks();
         }
         else
         {
-            LoadPlayerData();
-            SetUpBattles();
-
+            PresentNewCardOffer();
         }
+        LoadPlayerData();
     }
 
     private void LoadPlayerData()
     {
         deckManager.deckList = PlayerData.LoadPlayerDeck();
         currentLives = PlayerData.lives;
-        currentLivesText.text = currentLives.ToString() + " lives";
+        currentLivesText.text = "health: "+ currentLives;
+        currentWins = PlayerData.winsThisRun;
+        currentWinsText.text = currentWins + " wins";
+        deckSize = deckManager.deckList.Count;
+        currentDeckSizeText.text = "deck size: " + deckSize;
     }
 
     public void PresentNewStartingDecks()
     {
-        decks = GenerateAvailableStartingDecks();
+        deckOffer = GenerateAvailableStartingDecks();
         float cardHeight = cardThumbPrefab.GetComponent<RectTransform>().rect.height;
         float cardWidth = cardThumbPrefab.GetComponent<RectTransform>().rect.width;
         offerMenu.SetActive(true);
-        for(int deck = 0; deck < decks.Count; deck++)
+        for(int deck = 0; deck < deckOffer.Count; deck++)
         {
             //generate & splay card thumbs
-            for(int card = 0; card < decks[deck].deckList.Count; card++)
+            for(int card = 0; card < deckOffer[deck].deckList.Count; card++)
             {
                 GameObject nextCard = Instantiate(cardThumbPrefab, transform.position, Quaternion.identity);
                 nextCard.transform.parent = offerMenu.transform;
                 //set splay height and column position
-                float newXPos = ((cardWidth * deck) - (cardWidth * (decks.Count - 1) / 2)) * deckSpacingModifier;
-                float newYPos = ((cardHeight * (decks[deck].deckList.Count - 1) / 2) - (cardHeight * card)) * cardSpacingModifier;
+                float newXPos = ((cardWidth * deck) - (cardWidth * (deckOffer.Count - 1) / 2)) * deckSpacingModifier;
+                float newYPos = ((cardHeight * (deckOffer[deck].deckList.Count - 1) / 2) - (cardHeight * card)) * cardSpacingModifier;
                 Vector3 nextCardPos = new Vector3(newXPos, newYPos, 0);
                 nextCard.GetComponent<RectTransform>().localPosition = nextCardPos;
                 //set card info
-                nextCard.GetComponent<CardDetails>().SetDetails(decks[deck].deckList[card]);
+                nextCard.GetComponent<CardDetails>().SetDetails(deckOffer[deck].deckList[card]);
             }
             //create selection button
             GameObject selectButton = Instantiate(selectButtonPrefab, transform.position, Quaternion.identity);
             selectButton.transform.parent = offerMenu.transform;
-            float buttonXPos = ((cardWidth * deck) - (cardWidth * (decks.Count - 1) / 2)) * deckSpacingModifier;
-            float buttonYPos = ((cardHeight * (decks[deck].deckList.Count - 1) / 2) - (cardHeight * decks[deck].deckList.Count + 1)) * cardSpacingModifier;
+            float buttonXPos = ((cardWidth * deck) - (cardWidth * (deckOffer.Count - 1) / 2)) * deckSpacingModifier;
+            float buttonYPos = ((cardHeight * (deckOffer[deck].deckList.Count - 1) / 2) - (cardHeight * deckOffer[deck].deckList.Count + 1)) * cardSpacingModifier;
             Vector3 buttonPos = new Vector3(buttonXPos, buttonYPos, 0);
             selectButton.GetComponent<RectTransform>().localPosition = buttonPos;
             //set button method
             int deckCopy = deck ;
-            selectButton.GetComponent<Button>().onClick.AddListener(() => PlayerData.AddCardsToPlayerDeck(decks[deckCopy].deckList));
-            selectButton.GetComponent<Button>().onClick.AddListener(() => CompleteDeckSelection());
+            selectButton.GetComponent<Button>().onClick.AddListener(() => PlayerData.AddCardsToPlayerDeck(deckOffer[deckCopy].deckList));
+            selectButton.GetComponent<Button>().onClick.AddListener(() => ConfirmCardSelection());
         }
     }
     
@@ -108,11 +129,56 @@ public class MapManager : MonoBehaviour
 
         return newDecks;
     }
-    
-    public void CompleteDeckSelection()
+
+    public void PresentNewCardOffer()
+    {
+        cardOffer = GenerateCardRewards();
+        float cardHeight = cardFullPrefab.GetComponent<RectTransform>().rect.height;
+        float cardWidth = cardFullPrefab.GetComponent<RectTransform>().rect.width;
+        offerMenu.SetActive(true);
+        for (int newCard = 0; newCard < cardOffer.Count; newCard++)
+        {
+            //generate & splay cards
+            GameObject nextCard = Instantiate(cardFullPrefab, transform.position, Quaternion.identity);
+            nextCard.transform.parent = offerMenu.transform;
+            //set position
+            float newXPos = ((cardWidth * newCard) - (cardWidth * (cardOffer.Count - 1) / 2)) * deckSpacingModifier;
+            Vector3 nextCardPos = new Vector3(newXPos, 0, 0);
+            nextCard.GetComponent<RectTransform>().localPosition = nextCardPos;
+            //set card info
+            nextCard.GetComponent<CardDetails>().SetDetails(cardOffer[newCard]);
+            //create selection button
+            GameObject selectButton = Instantiate(selectButtonPrefab, transform.position, Quaternion.identity);
+            selectButton.transform.parent = offerMenu.transform;
+            float buttonXPos = ((cardWidth * newCard) - (cardWidth * (cardOffer.Count - 1) / 2)) * deckSpacingModifier;
+            float buttonYPos = -cardHeight/2 * cardSpacingModifier;
+            Vector3 buttonPos = new Vector3(buttonXPos, buttonYPos, 0);
+            selectButton.GetComponent<RectTransform>().localPosition = buttonPos;
+            //set button method
+            int cardCopy = newCard;
+            selectButton.GetComponent<Button>().onClick.AddListener(() => PlayerData.AddCardsToPlayerDeck(cardOffer[cardCopy]));
+            selectButton.GetComponent<Button>().onClick.AddListener(() => ConfirmCardSelection());
+        }
+    }
+
+    public List<PlayerCardAttributes> GenerateCardRewards()
+    {
+        if(CardManager.allCards.Count == 0) { return null; }
+        List<PlayerCardAttributes> newCards = new();
+        for(int newCard = 0; newCard < 3; newCard++)
+        {
+            int randomCardToPick = UnityEngine.Random.Range(0, CardManager.allCards.Count);
+            newCards.Add(CardManager.allCards[randomCardToPick]);
+        }
+        return newCards;
+    }
+
+    public void ConfirmCardSelection()
     {
         deckManager.deckList = PlayerData.deckList;
         SetUpBattles();
+        deckSize = deckManager.deckList.Count;
+        currentDeckSizeText.text = "deck size: " + deckSize;
         offerMenu.SetActive(false);
     }
 

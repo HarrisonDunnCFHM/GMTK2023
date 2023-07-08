@@ -7,19 +7,33 @@ public static class PlayerData
     //current progress
     public static int lives = 3;
     public static int runProgress = 0;
+    public static int winsThisRun = 0;
     public static BattleAttributes nextBattle;
+    public static List<PlayerCardAttributes> deckList;
 
     //meta progress
     public static int completedRuns = 0;
     public static int winningRuns = 0;
     
+    //constants
     public const int startingLives = 3;
-    
-    public static List<PlayerCardAttributes> deckList;
+
+    public static void StartNewRun()
+    {
+        lives = startingLives;
+        runProgress = 0;
+        winsThisRun = 0;
+        deckList = new();
+    }
 
     public static List<PlayerCardAttributes> LoadPlayerDeck()
     {
         return deckList;
+    }
+
+    public static void SaveDeckList(List<PlayerCardAttributes> listToSave)
+    {
+        deckList = listToSave;
     }
 
     public static void ClearDeckList()

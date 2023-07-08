@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b4e9a448a09c7f34aa53cb843a817a93, type: 3}
-  m_Name: EarthTest1
+  m_Name: WaterTest2
   m_EditorClassIdentifier: 
   strength: 2
-  element: 2
+  element: 1
   used: 0

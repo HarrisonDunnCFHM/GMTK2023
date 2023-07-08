@@ -6,6 +6,7 @@ using TMPro;
 public class EnemyAttackPicker : MonoBehaviour
 {
     public List<EnemyAttackAttributes> attackList;
+    public List<EnemyAttack> generatedAttacksList;
     public GameObject attackCardPrefab;
     public float attackSpacingModifier = 1.4f;
 
@@ -14,8 +15,11 @@ public class EnemyAttackPicker : MonoBehaviour
     [SerializeField] private TextMeshProUGUI usedAttackText;
     [SerializeField] private TextMeshProUGUI usedAttackPowerText;
     [SerializeField] private TextMeshProUGUI usedAttackElementText;
+    public EnemyAttack lastAttack;
     public int lastAttackStrength;
     public Element lastAttackElement;
+
+    public bool resolvingAttack = false;
     
     // Start is called before the first frame update
     void Start()
@@ -26,11 +30,32 @@ public class EnemyAttackPicker : MonoBehaviour
 
     private void LoadNextBattleFromPlayerData()
     {
+        if(PlayerData.nextBattle == null) { return; }
         attackList = PlayerData.nextBattle.enemyAttacks;
     }
 
-    public void UseAttack(int strength, Element element)
+    public void DisplayAttacks()
     {
+        if(attackList.Count == 0) { return; }
+        generatedAttacksList = new();
+        float cardCount = attackList.Count;
+        for (int cardPos = 0; cardPos < cardCount; cardPos++)
+        {
+            float newXPos = ((cardCount - 1) * -0.5f + cardPos) * attackSpacingModifier;
+            GameObject newAttackObj = Instantiate(attackCardPrefab,transform.position,Quaternion.identity);
+            newAttackObj.transform.position = new Vector3(newXPos, transform.position.y, 0);
+            newAttackObj.GetComponentInChildren<TextMeshProUGUI>().text = attackList[cardPos].element.ToString() + " " + attackList[cardPos].strength.ToString();
+            EnemyAttack newAttack = newAttackObj.GetComponent<EnemyAttack>();
+            newAttack.myAttackAtributes = attackList[cardPos];
+            newAttack.attackPicker = this;
+            generatedAttacksList.Add(newAttack);
+        }
+    }
+
+    public void UseAttack(EnemyAttack attack, int strength, Element element)
+    {
+        if (resolvingAttack) { return; } else { resolvingAttack = true; }
+        lastAttack = attack;
         lastAttackStrength = strength;
         lastAttackElement = element;
         usedAttackText.text = "Enemy uses " + strength + " power " + element.ToString() + " attack!";
@@ -39,20 +64,5 @@ public class EnemyAttackPicker : MonoBehaviour
         StartCoroutine(battleSequence.PlayOutAttack());
     }
 
-    public void DisplayAttacks()
-    {
-        if(attackList.Count == 0) { return; }
-        float cardCount = attackList.Count;
-        for (int cardPos = 0; cardPos < cardCount; cardPos++)
-        {
-            float newXPos = ((cardCount - 1) * -0.5f + cardPos) * attackSpacingModifier;
-            GameObject newAttack = Instantiate(attackCardPrefab,transform.position,Quaternion.identity);
-            newAttack.transform.position = new Vector3(newXPos, transform.position.y, 0);
-            newAttack.GetComponentInChildren<TextMeshProUGUI>().text = attackList[cardPos].element.ToString() + " " + attackList[cardPos].strength.ToString();
-            newAttack.GetComponent<EnemyAttack>().myAttackAtributes = attackList[cardPos];
-            newAttack.GetComponent<EnemyAttack>().attackPicker = this;
-        }
-    }
-
-
+    
 }
