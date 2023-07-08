@@ -6,4 +6,10 @@ using UnityEngine;
 public class BattleAttributes : ScriptableObject
 {
     public List<EnemyAttackAttributes> enemyAttacks;
+    public Element preferredElement;
+    public int preferredAttacks;
+    public int offElementAttacks;
+    public int totalAttacks;
+    public int totalPower;
+   
 }

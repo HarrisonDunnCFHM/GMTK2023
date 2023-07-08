@@ -13,6 +13,7 @@ public class EnemyAttack : MonoBehaviour
     void Start()
     {
         myRenderer = GetComponent<SpriteRenderer>();
+
     }
 
     // Update is called once per frame
@@ -24,6 +25,10 @@ public class EnemyAttack : MonoBehaviour
     private void OnMouseDown()
     {
         if (used) { return; }
+        if (FindObjectOfType<BattleSequence>().battleOver)
+        {
+            return;
+        }
         attackPicker.UseAttack(this, myAttackAtributes.strength, myAttackAtributes.element);
     }
 

@@ -56,6 +56,7 @@ public class BattleSequence : MonoBehaviour
         currentPlayerPower = 0;
         EnemyAttack lastAttack = attackPicker.lastAttack;
         int enemyAttack = attackPicker.lastAttackStrength;
+        Element enemyElement = attackPicker.lastAttackElement;
         int cardsPlayed = 0;
         while (currentPlayerPower < enemyAttack)
         {
@@ -70,11 +71,17 @@ public class BattleSequence : MonoBehaviour
             {
                 PlayerCardAttributes nextPlayed = playerDeck.PlayCard();
                 cardsLeftInDeck = playerDeck.battleDeckList.Count;
-                int playedPower = nextPlayed.power;
                 Element playedElement = nextPlayed.element;
+                int playedPower = nextPlayed.power;
+                string matchingElement = "";
+                if (playedElement == enemyElement)
+                {
+                    matchingElement = "!! (" + playedPower + ")";
+                    playedPower *= 2;
+                }
                 currentPlayerPower += playedPower;
                 GameObject cardPlayedObject = Instantiate(cardPrefab, transform.position, Quaternion.identity);
-                cardPlayedObject.GetComponentInChildren<TextMeshProUGUI>().text = playedElement.ToString() + " " + playedPower.ToString();
+                cardPlayedObject.GetComponentInChildren<TextMeshProUGUI>().text = playedElement.ToString() + " " + playedPower.ToString() + matchingElement;
                 cardPlayedObject.transform.position = new Vector3 (playerDeckLocation.x + cardsPlayed, playerDeckLocation.y,0);
                 playedCardsList.Add(cardPlayedObject);
                 cardsPlayed++;

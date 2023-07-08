@@ -75,8 +75,9 @@ public class MapManager : MonoBehaviour
         currentLives = PlayerData.lives;
         currentLivesText.text = "health: "+ currentLives;
         currentWins = PlayerData.winsThisRun;
-        currentWinsText.text = currentWins + " wins";
-        deckSize = deckManager.deckList.Count;
+        currentWinsText.text = currentWins + " / " + winsNeededToComplete + " wins";
+        if (deckManager.deckList == null) { deckSize = 0; }
+        else { deckSize = deckManager.deckList.Count; }
         currentDeckSizeText.text = "deck size: " + deckSize;
     }
 
@@ -185,22 +186,105 @@ public class MapManager : MonoBehaviour
     public void SetUpBattles()
     {
         //assemble possible battle list
-        battles = new(Resources.LoadAll<BattleAttributes>("Battles").ToList());
+        battles = GenerateDynamicBattles();
         //create battle buttons
         //max 3 battles?
-        int battlesToGenerate = Mathf.Min(maxBattles, battles.Count);
+        int battlesToGenerate = battles.Count;
         Debug.Log("attempting to generate battles: " + battlesToGenerate);
         float buttonWidth = selectButtonPrefab.GetComponent<RectTransform>().rect.width;
         for (int battle = 0; battle < battlesToGenerate; battle++)
         {
+            int tempBattleNum = battle;
             GameObject battleButton = Instantiate(selectButtonPrefab, transform.position, Quaternion.identity, mainCanvas.transform);
             //battleButton.transform.parent = mainCanvas.transform;
             float newXPos = ((buttonWidth * battle) - (buttonWidth * (battlesToGenerate - 1 )/ 2)) * deckSpacingModifier;
             battleButton.transform.localPosition = new Vector3(newXPos, 0, 0);
-            int tempBattleNum = battle;
+            //battle details text
+            List<TextMeshProUGUI> battleTexts = battleButton.GetComponentsInChildren<TextMeshProUGUI>().ToList();
+            foreach(TextMeshProUGUI text in battleTexts)
+            {
+                if(text.name == "Choice Details")
+                {
+                    text.text = battles[tempBattleNum].totalPower + " power // " + battles[tempBattleNum].totalAttacks + " enemies ("
+                        + battles[tempBattleNum].preferredElement.ToString() + ")";
+                }
+                else
+                {
+                    text.text = "Battle";
+                }
+            }
             battleButton.GetComponent<Button>().onClick.AddListener(() => SelectNextBattle(battles[tempBattleNum]));
-            battleButton.GetComponentInChildren<TextMeshProUGUI>().text = battles[tempBattleNum].name;
+            //battleButton.GetComponentInChildren<TextMeshProUGUI>().text = battles[tempBattleNum].name;
         }
+    }
+
+    public List<BattleAttributes> GenerateDynamicBattles()
+    {
+        //get all attacks
+        List<EnemyAttackAttributes> allAttacks = new(Resources.LoadAll<EnemyAttackAttributes>("Enemies").ToList());
+        //refine attacks based on progression
+        List<EnemyAttackAttributes> possibleAttacks = new();
+        int currentProgress = PlayerData.runProgress + PlayerData.winsThisRun;
+        foreach(EnemyAttackAttributes attack in allAttacks)
+        {
+            if(attack.strength <= currentProgress + 2 && attack.strength >= PlayerData.winsThisRun)
+            {
+                possibleAttacks.Add(attack);
+            }
+        }
+        //if no matching attacks, use all
+        if(possibleAttacks.Count == 0)
+        {
+            possibleAttacks = allAttacks;
+        }
+        //generate 3 battles with max total strength defied by run progress?
+        List<BattleAttributes> newBattles = new();
+        currentProgress = (PlayerData.runProgress + PlayerData.winsThisRun + 1) * Mathf.Max(PlayerData.winsThisRun, 3);
+        for(int battle = 0; battle < 3; battle++)
+        {
+            BattleAttributes nextBattle = new();
+            nextBattle.enemyAttacks = new();
+            int battleStrength = UnityEngine.Random.Range(currentProgress, currentProgress * PlayerData.winsThisRun);
+
+            int firstEnemy = UnityEngine.Random.Range(0, possibleAttacks.Count);
+            EnemyAttackAttributes enemy = possibleAttacks[firstEnemy];
+            Element preferredElement = enemy.element;
+            nextBattle.preferredElement = preferredElement;
+            Debug.Log("Battle #" + (battle + 1) + " prefers " + preferredElement.ToString());
+            nextBattle.enemyAttacks.Add(possibleAttacks[firstEnemy]);
+            nextBattle.totalPower += possibleAttacks[firstEnemy].strength;
+            nextBattle.preferredAttacks++;
+            nextBattle.totalAttacks++;
+
+            while ((nextBattle.totalPower <= battleStrength && nextBattle.totalAttacks < 5) || nextBattle.totalAttacks < 2)
+            {
+                int nextEnemy = UnityEngine.Random.Range(0, possibleAttacks.Count);
+                EnemyAttackAttributes nextEnemyDetails = possibleAttacks[nextEnemy];
+                if (nextEnemyDetails.element == preferredElement)
+                {
+                    nextBattle.enemyAttacks.Add(possibleAttacks[nextEnemy]);
+                    nextBattle.totalPower += possibleAttacks[nextEnemy].strength;
+                    nextBattle.preferredAttacks++;
+                    nextBattle.totalAttacks++;
+                    Debug.Log("Added a preferred " + preferredElement.ToString() + " card to Battle " + (battle + 1));
+                }
+                else if (nextBattle.preferredAttacks > nextBattle.offElementAttacks)
+                {
+                    nextBattle.enemyAttacks.Add(possibleAttacks[nextEnemy]);
+                    nextBattle.totalPower += possibleAttacks[nextEnemy].strength;
+                    nextBattle.offElementAttacks++;
+                    nextBattle.totalAttacks++;
+                    Debug.Log("Added an off " + possibleAttacks[nextEnemy].element.ToString() + " card to Battle " + (battle + 1));
+                }
+                else
+                {
+                    Debug.Log("didn't add an off " + possibleAttacks[nextEnemy].element.ToString() + " to Battle " + (battle + 1) + "("
+                      + nextBattle.totalAttacks + " vs " + nextBattle.offElementAttacks + ")");
+                }
+            }
+            newBattles.Add(nextBattle);
+        }
+        return newBattles;
     }
 
     public void SelectNextBattle(BattleAttributes nextBattle)

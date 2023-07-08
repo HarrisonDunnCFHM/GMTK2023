@@ -48,6 +48,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myAttackAtributes: {fileID: 0}
+  attackPicker: {fileID: 0}
+  used: 0
 --- !u!212 &6536494949194675130
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -299,7 +301,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1, y: 100}
+  m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &1516791535701141397
 Canvas:
