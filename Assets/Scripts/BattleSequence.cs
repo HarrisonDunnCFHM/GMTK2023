@@ -21,7 +21,6 @@ public class BattleSequence : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        playerDeck.GenerateBattleDeck();
         playerDeckLocation = playerDeck.transform.position;
     }
 
@@ -30,6 +29,9 @@ public class BattleSequence : MonoBehaviour
     {
         currentPlayerPowerText.text = "Current Attack Power: " + currentPlayerPower.ToString();
     }
+
+   
+
 
     public IEnumerator PlayOutAttack()
     {

@@ -7,6 +7,7 @@ public static class PlayerData
     //current progress
     public static int lives = 3;
     public static int runProgress = 0;
+    public static BattleAttributes nextBattle;
 
     //meta progress
     public static int completedRuns = 0;

@@ -11,13 +11,27 @@ public class DeckManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        LoadPlayerDeck();
+        if (FindObjectOfType<BattleSequence>())
+        {
+            GenerateBattleDeck();
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void LoadPlayerDeck()
     {
-        
+        if (PlayerData.deckList == null)
+        {
+            deckList = new List<PlayerCardAttributes>();
+        }
+        else if (PlayerData.deckList.Count >= 0)
+        {
+            deckList = PlayerData.deckList;
+        }
+        else
+        {
+            deckList = new List<PlayerCardAttributes>();
+        }
     }
 
     public PlayerCardAttributes PlayCard()

@@ -1378,12 +1378,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 336b055f5477b044fa3bafac3bb9fe5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deckList:
-  - {fileID: 11400000, guid: b1b62153a44758e4cbdeaa2943d025a6, type: 2}
-  - {fileID: 11400000, guid: cb3027bc65283054c90e9b76b257bf07, type: 2}
-  - {fileID: 11400000, guid: 980d55996208e0e47a127ad4455e0ee2, type: 2}
-  - {fileID: 11400000, guid: 77e5a9d248183fe478b16c0405d35de5, type: 2}
-  - {fileID: 11400000, guid: 3889e99dc6154794c984d514065c7ece, type: 2}
+  deckList: []
   battleDeckList: []
 --- !u!4 &2118724740
 Transform:

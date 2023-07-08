@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7291aca16f559bb4ca5f1e429a99b776, type: 3}
+  m_Name: TestBattle3
+  m_EditorClassIdentifier: 
+  enemyAttacks:
+  - {fileID: 11400000, guid: ab5f33d846ef2dd4ebd6a3136c1eb82f, type: 2}
+  - {fileID: 11400000, guid: cee75c847f3d17840aa26edb9a1625c6, type: 2}
+  - {fileID: 11400000, guid: 07f9e135110133744949c47e2dc08c8c, type: 2}

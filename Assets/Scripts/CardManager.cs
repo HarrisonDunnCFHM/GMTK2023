@@ -12,9 +12,7 @@ public static class CardManager
     // Start is called before the first frame update
     public static void InitializeCardList()
     {
-        Debug.Log("loading all cards");
         allCards = Resources.LoadAll<PlayerCardAttributes>("Cards").ToList();
-        Debug.Log("cards loaded: " + allCards.Count);
     }
 
     public static void InitializeDecksList()

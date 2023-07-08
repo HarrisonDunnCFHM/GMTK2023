@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4e9a448a09c7f34aa53cb843a817a93, type: 3}
   m_Name: FireTest1
   m_EditorClassIdentifier: 
-  strength: 3
+  strength: 2
   element: 0
   used: 0

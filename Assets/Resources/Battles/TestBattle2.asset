@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4e9a448a09c7f34aa53cb843a817a93, type: 3}
-  m_Name: EarthTest1
+  m_Script: {fileID: 11500000, guid: 7291aca16f559bb4ca5f1e429a99b776, type: 3}
+  m_Name: TestBattle2
   m_EditorClassIdentifier: 
-  strength: 2
-  element: 2
-  used: 0
+  enemyAttacks:
+  - {fileID: 11400000, guid: 07f9e135110133744949c47e2dc08c8c, type: 2}
+  - {fileID: 11400000, guid: ab5f33d846ef2dd4ebd6a3136c1eb82f, type: 2}
