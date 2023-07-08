@@ -152,7 +152,7 @@ public class MapManager : MonoBehaviour
             GameObject selectButton = Instantiate(selectButtonPrefab, transform.position, Quaternion.identity);
             selectButton.transform.parent = offerMenu.transform;
             float buttonXPos = ((cardWidth * newCard) - (cardWidth * (cardOffer.Count - 1) / 2)) * deckSpacingModifier;
-            float buttonYPos = -cardHeight/2 * cardSpacingModifier;
+            float buttonYPos = -cardHeight/2 * cardSpacingModifier - selectButton.GetComponent<RectTransform>().rect.height;
             Vector3 buttonPos = new Vector3(buttonXPos, buttonYPos, 0);
             selectButton.GetComponent<RectTransform>().localPosition = buttonPos;
             //set button method
