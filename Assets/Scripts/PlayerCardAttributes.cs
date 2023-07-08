@@ -10,4 +10,4 @@ public class PlayerCardAttributes : ScriptableObject
     public string rules;
 }
 
-public enum Element { Fire, Water, Earth, Wind }
+public enum Element { Earth, Fire, Water,  Wind }

@@ -24,26 +24,26 @@ public class CardDetails : MonoBehaviour
     {
         //elementText.text = inputCard.element.ToString();
         int elementIndex = (int)inputCard.element;
-        myIconImage.sprite = elementIcons[elementIndex];
-        myCardImage.color = cardColors[elementIndex];
+       
         //switch (inputCard.element)
         //{
         //    case Element.Earth:
-        //        myIconImage.sprite = elementIcons[0];
-        //        myCardImage.color = cardColors[0];
+        //        elementIndex = 0;
         //        break;
         //    case Element.Fire:
-        //        myIconImage.sprite = elementIcons[1];
+        //        elementIndex = 1;
         //        break;
         //    case Element.Water:
-        //        myIconImage.sprite = elementIcons[2];
+        //        elementIndex = 2;
         //        break;
         //    case Element.Wind:
-        //        myIconImage.sprite = elementIcons[3];
+        //        elementIndex = 3;
         //        break;
         //    default:
         //        break;
         //}
+        myIconImage.sprite = elementIcons[elementIndex];
+        myCardImage.color = cardColors[elementIndex]; 
         nameText.text = inputCard.name;
         powerText.text = inputCard.power.ToString();
         rulesText.text = inputCard.rules;

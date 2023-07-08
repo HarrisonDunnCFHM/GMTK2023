@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: WaterTest1
   m_EditorClassIdentifier: 
   power: 1
-  element: 1
+  element: 2
+  rules: 

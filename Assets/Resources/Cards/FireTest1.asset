@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: FireTest1
   m_EditorClassIdentifier: 
   power: 1
-  element: 0
+  element: 1
+  rules: 

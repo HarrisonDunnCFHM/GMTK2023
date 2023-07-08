@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: EarthTest2
   m_EditorClassIdentifier: 
   power: 2
-  element: 2
+  element: 0
+  rules: 
