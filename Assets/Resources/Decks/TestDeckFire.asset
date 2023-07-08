@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a641862232c0c4448a4fcdd0aead7c0, type: 3}
+  m_Name: TestDeckFire
+  m_EditorClassIdentifier: 
+  deckList:
+  - {fileID: 11400000, guid: b1b62153a44758e4cbdeaa2943d025a6, type: 2}
+  - {fileID: 11400000, guid: cb3027bc65283054c90e9b76b257bf07, type: 2}
+  - {fileID: 11400000, guid: 980d55996208e0e47a127ad4455e0ee2, type: 2}
+  - {fileID: 11400000, guid: 77e5a9d248183fe478b16c0405d35de5, type: 2}
+  - {fileID: 11400000, guid: 3889e99dc6154794c984d514065c7ece, type: 2}
+  isStarter: 1
+  isUnlocked: 1
