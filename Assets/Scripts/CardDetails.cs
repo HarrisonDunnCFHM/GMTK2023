@@ -22,26 +22,7 @@ public class CardDetails : MonoBehaviour
 
     public void SetDetails(PlayerCardAttributes inputCard)
     {
-        //elementText.text = inputCard.element.ToString();
         int elementIndex = (int)inputCard.element;
-       
-        //switch (inputCard.element)
-        //{
-        //    case Element.Earth:
-        //        elementIndex = 0;
-        //        break;
-        //    case Element.Fire:
-        //        elementIndex = 1;
-        //        break;
-        //    case Element.Water:
-        //        elementIndex = 2;
-        //        break;
-        //    case Element.Wind:
-        //        elementIndex = 3;
-        //        break;
-        //    default:
-        //        break;
-        //}
         myIconImage.sprite = elementIcons[elementIndex];
         myCardImage.color = cardColors[elementIndex]; 
         nameText.text = inputCard.name;

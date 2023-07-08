@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: efcbb0777c558794fb0bde8659519899
+guid: d87e7d94c26874e499ded225cddd8c4a
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -128,7 +128,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: gmtk2023_icons001_0
+      name: gmtk2023_icons002_0
       rect:
         serializedVersion: 2
         x: 0
@@ -142,14 +142,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bb3990a25d9530c4880c98dc5c60ef3f
-      internalID: -1002865817
+      spriteID: 9684cb2a5036b8c428625c3917b222b9
+      internalID: 2114581403
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gmtk2023_icons001_1
+      name: gmtk2023_icons002_1
       rect:
         serializedVersion: 2
         x: 34
@@ -163,14 +163,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a1ea47821215a3c41b1994fed862cf5f
-      internalID: 1754283555
+      spriteID: 01a786585792e994e81c42e7df07d4d0
+      internalID: 1584052190
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gmtk2023_icons001_2
+      name: gmtk2023_icons002_2
       rect:
         serializedVersion: 2
         x: 68
@@ -184,29 +184,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b8070e14fba77004ab779b9930d56a4d
-      internalID: -560226239
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: gmtk2023_icons001_3
-      rect:
-        serializedVersion: 2
-        x: 102
-        y: 0
-        width: 34
-        height: 37
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4f8f8d421be85844887c356b1992eb69
-      internalID: -216652780
+      spriteID: c45cec3d2d8dc9c4698a0f19fa35e61b
+      internalID: 310561551
       vertices: []
       indices: 
       edges: []
@@ -222,10 +201,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      gmtk2023_icons001_1: 1754283555
-      gmtk2023_icons001_2: -560226239
-      gmtk2023_icons001_0: -1002865817
-      gmtk2023_icons001_3: -216652780
+      gmtk2023_icons002_1: 1584052190
+      gmtk2023_icons002_0: 2114581403
+      gmtk2023_icons002_2: 310561551
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
