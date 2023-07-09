@@ -67,11 +67,12 @@ public class EnemyAttackPicker : MonoBehaviour
         for (int cardPos = 0; cardPos < cardCount; cardPos++)
         {
             float newXPos = ((cardWidth * cardPos) - (cardWidth * (cardCount -1) / 2)) * attackSpacingModifier ;
-            float newYPos = mainCanvas.GetComponent<RectTransform>().rect.height / -4;
-            //((cardCount - 1) * -0.5f + cardPos) * attackSpacingModifier;
-            //(((cardCount) * cardWidth) - (cardWidth * (cardPos) / 2)) * attackSpacingModifier
+            float newStartingYPos = mainCanvas.GetComponent<RectTransform>().rect.height / -2.5f;
+            float newEndingYPos = mainCanvas.GetComponent<RectTransform>().rect.height / -3.5f;
             GameObject newAttackObj = Instantiate(enemyCardPrefab, transform.position, Quaternion.identity, mainCanvas.transform);
-            newAttackObj.GetComponent<RectTransform>().localPosition = new Vector3(newXPos, newYPos, 0);
+            Vector3 startingPos = new Vector3(newXPos, newStartingYPos, 0);
+            Vector3 endingPos = new Vector3(newXPos, newEndingYPos, 0);
+            newAttackObj.GetComponent<RectTransform>().localPosition = startingPos;
             newAttackObj.GetComponentInChildren<TextMeshProUGUI>().text = attackList[cardPos].strength.ToString();
             EnemyAttack newAttack = newAttackObj.GetComponent<EnemyAttack>();
             int elementIndex = (int)attackList[cardPos].element;
@@ -79,11 +80,13 @@ public class EnemyAttackPicker : MonoBehaviour
             newAttack.myAttackAtributes = attackList[cardPos];
             newAttack.attackPicker = this;
             newAttack.myAttackColumnXValue = newXPos;
+            newAttack.myPowerText.gameObject.transform.parent = mainCanvas.transform;
+            newAttack.myElementIcon.gameObject.transform.parent = mainCanvas.transform;
             generatedAttacksList.Add(newAttack);
             //create button to attack
             GameObject attackButton = Instantiate(selectButtonPrefab, transform.position, Quaternion.identity, mainCanvas.transform);
             float newButtonYPos = enemyCardPrefab.GetComponent<RectTransform>().rect.height/2 + 
-                selectButtonPrefab.GetComponent<RectTransform>().rect.height/2 + newYPos;
+                selectButtonPrefab.GetComponent<RectTransform>().rect.height*1.5f + newStartingYPos;
             attackButton.GetComponent<RectTransform>().localPosition = new Vector3(newXPos, newButtonYPos, 0);
             newAttack.myAttackColumnYValue = newButtonYPos + selectButtonPrefab.GetComponent<RectTransform>().rect.height / 2;
             TextMeshProUGUI[] allTexts = attackButton.GetComponentsInChildren<TextMeshProUGUI>();
@@ -95,11 +98,18 @@ public class EnemyAttackPicker : MonoBehaviour
                 }
                 else
                 {
-                    text.text = "Attack!";
+                    text.text = "Guide";
                 }
             }
             attackButton.GetComponent<Button>().onClick.AddListener(() => newAttack.GetAttacked());
+            attackButton.GetComponent<Button>().onClick.AddListener(() => StartCoroutine(newAttack.MoveCard(startingPos, endingPos ,0.2f)));
+            attackButton.GetComponent<Button>().onClick.AddListener(() => HideObject(attackButton));
         }
+    }
+
+    public void HideObject(GameObject objectToHide)
+    {
+        objectToHide.SetActive(false);
     }
 
     public void UseAttack(EnemyAttack attack, int strength, Element element)
@@ -108,9 +118,6 @@ public class EnemyAttackPicker : MonoBehaviour
         lastAttack = attack;
         lastAttackStrength = strength;
         lastAttackElement = element;
-        //usedAttackText.text = "Enemy uses " + strength + " power " + element.ToString() + " attack!";
-        //usedAttackPowerText.text = strength.ToString();
-        //usedAttackElementText.text = element.ToString();
         StartCoroutine(battleSequence.PlayOutAttack());
     }
 

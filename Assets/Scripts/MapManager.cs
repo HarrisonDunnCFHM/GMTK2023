@@ -11,17 +11,17 @@ public class MapManager : MonoBehaviour
     public DeckManager deckManager;
 
     public int currentLives;
-    [SerializeField] TextMeshProUGUI currentLivesText;
     public int currentWins;
-    [SerializeField] TextMeshProUGUI currentWinsText;
     public int deckSize;
-    [SerializeField] TextMeshProUGUI currentDeckSizeText;
 
     [SerializeField] int winsNeededToComplete = 5;
     [SerializeField] GameObject successfulRunPopUp;
     public bool runOver = false;
 
     [SerializeField] GameObject offerMenu;
+    [SerializeField] GameObject textPickDeck;
+    [SerializeField] GameObject textPickCard;
+
     [SerializeField] float deckSpacingModifier;
     [SerializeField] float cardSpacingModifier;
     [SerializeField] GameObject cardThumbPrefab;
@@ -72,13 +72,8 @@ public class MapManager : MonoBehaviour
     private void LoadPlayerData()
     {
         deckManager.deckList = PlayerData.LoadPlayerDeck();
-        currentLives = PlayerData.lives;
-        currentLivesText.text = "health: "+ currentLives;
-        currentWins = PlayerData.winsThisRun;
-        currentWinsText.text = currentWins + " / " + winsNeededToComplete + " wins";
-        if (deckManager.deckList == null) { deckSize = 0; }
-        else { deckSize = deckManager.deckList.Count; }
-        currentDeckSizeText.text = "deck size: " + deckSize;
+       
+        
     }
 
     public void PresentNewStartingDecks()
@@ -87,7 +82,8 @@ public class MapManager : MonoBehaviour
         float cardHeight = cardThumbPrefab.GetComponent<RectTransform>().rect.height;
         float cardWidth = cardThumbPrefab.GetComponent<RectTransform>().rect.width;
         offerMenu.SetActive(true);
-        for(int deck = 0; deck < deckOffer.Count; deck++)
+        textPickDeck.SetActive(true);
+        for (int deck = 0; deck < deckOffer.Count; deck++)
         {
             //generate & splay card thumbs
             for(int card = 0; card < deckOffer[deck].deckList.Count; card++)
@@ -134,13 +130,14 @@ public class MapManager : MonoBehaviour
     public void PresentNewCardOffer()
     {
         cardOffer = GenerateCardRewards();
-        float cardHeight = cardFullPrefab.GetComponent<RectTransform>().rect.height;
-        float cardWidth = cardFullPrefab.GetComponent<RectTransform>().rect.width;
+        float cardHeight = cardThumbPrefab.GetComponent<RectTransform>().rect.height;
+        float cardWidth = cardThumbPrefab.GetComponent<RectTransform>().rect.width;
         offerMenu.SetActive(true);
+        textPickCard.SetActive(true);
         for (int newCard = 0; newCard < cardOffer.Count; newCard++)
         {
             //generate & splay cards
-            GameObject nextCard = Instantiate(cardFullPrefab, transform.position, Quaternion.identity);
+            GameObject nextCard = Instantiate(cardThumbPrefab, transform.position, Quaternion.identity);
             nextCard.transform.parent = offerMenu.transform;
             //set position
             float newXPos = ((cardWidth * newCard) - (cardWidth * (cardOffer.Count - 1) / 2)) * deckSpacingModifier;
@@ -179,8 +176,9 @@ public class MapManager : MonoBehaviour
         deckManager.deckList = PlayerData.deckList;
         SetUpBattles();
         deckSize = deckManager.deckList.Count;
-        currentDeckSizeText.text = "deck size: " + deckSize;
         offerMenu.SetActive(false);
+        textPickDeck.SetActive(false);
+        textPickCard.SetActive(false);
     }
 
     public void SetUpBattles()
@@ -190,7 +188,6 @@ public class MapManager : MonoBehaviour
         //create battle buttons
         //max 3 battles?
         int battlesToGenerate = battles.Count;
-        Debug.Log("attempting to generate battles: " + battlesToGenerate);
         float buttonWidth = selectButtonPrefab.GetComponent<RectTransform>().rect.width;
         for (int battle = 0; battle < battlesToGenerate; battle++)
         {
@@ -205,12 +202,12 @@ public class MapManager : MonoBehaviour
             {
                 if(text.name == "Choice Details")
                 {
-                    text.text = battles[tempBattleNum].totalPower + " power // " + battles[tempBattleNum].totalAttacks + " enemies ("
+                    text.text = battles[tempBattleNum].totalPower + " power // " + battles[tempBattleNum].totalAttacks + " spirits ("
                         + battles[tempBattleNum].preferredElement.ToString() + ")";
                 }
                 else
                 {
-                    text.text = "Battle";
+                    text.text = "Choose Portal";
                 }
             }
             battleButton.GetComponent<Button>().onClick.AddListener(() => SelectNextBattle(battles[tempBattleNum]));
@@ -250,7 +247,6 @@ public class MapManager : MonoBehaviour
             EnemyAttackAttributes enemy = possibleAttacks[firstEnemy];
             Element preferredElement = enemy.element;
             nextBattle.preferredElement = preferredElement;
-            Debug.Log("Battle #" + (battle + 1) + " prefers " + preferredElement.ToString());
             nextBattle.enemyAttacks.Add(possibleAttacks[firstEnemy]);
             nextBattle.totalPower += possibleAttacks[firstEnemy].strength;
             nextBattle.preferredAttacks++;
@@ -266,7 +262,6 @@ public class MapManager : MonoBehaviour
                     nextBattle.totalPower += possibleAttacks[nextEnemy].strength;
                     nextBattle.preferredAttacks++;
                     nextBattle.totalAttacks++;
-                    Debug.Log("Added a preferred " + preferredElement.ToString() + " card to Battle " + (battle + 1));
                 }
                 else if (nextBattle.preferredAttacks > nextBattle.offElementAttacks)
                 {
@@ -274,12 +269,9 @@ public class MapManager : MonoBehaviour
                     nextBattle.totalPower += possibleAttacks[nextEnemy].strength;
                     nextBattle.offElementAttacks++;
                     nextBattle.totalAttacks++;
-                    Debug.Log("Added an off " + possibleAttacks[nextEnemy].element.ToString() + " card to Battle " + (battle + 1));
                 }
                 else
                 {
-                    Debug.Log("didn't add an off " + possibleAttacks[nextEnemy].element.ToString() + " to Battle " + (battle + 1) + "("
-                      + nextBattle.totalAttacks + " vs " + nextBattle.offElementAttacks + ")");
                 }
             }
             newBattles.Add(nextBattle);

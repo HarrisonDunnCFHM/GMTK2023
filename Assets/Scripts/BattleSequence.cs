@@ -91,7 +91,6 @@ public class BattleSequence : MonoBehaviour
         {
             if (playerDeck.battleDeckList.Count <= 0)
             {
-                Debug.Log("out of cards!");
                 CheckForBattleOver();
                 break;
             }
@@ -101,15 +100,17 @@ public class BattleSequence : MonoBehaviour
                 cardsLeftInDeck = playerDeck.battleDeckList.Count;
                 Element playedElement = nextPlayed.element;
                 int playedPower = nextPlayed.power;
-                string matchingElement = "";
-                if (playedElement == enemyElement)
-                {
-                    matchingElement = "!! (" + playedPower + ")";
-                    playedPower *= 2;
-                }
                 currentPlayerPower += playedPower;
                 GameObject cardPlayedObject = Instantiate(cardThumbPrefab, transform.position, Quaternion.identity, mainCanvas.transform);
-                cardPlayedObject.GetComponent<CardDetails>().SetDetails(nextPlayed);
+                CardDetails cardDetails = cardPlayedObject.GetComponent<CardDetails>();
+                cardDetails.SetDetails(nextPlayed);
+                if (playedElement == enemyElement)
+                {
+                    cardDetails.myCritIcon.SetActive(true);
+                    cardDetails.powerText.text = (playedPower * 2).ToString() ;
+                    cardDetails.powerText.fontSize *= 1.5f;
+                    cardDetails.powerText.fontStyle = FontStyles.Bold;
+                }
                 float newYPos = (cardsPlayed + 1) * cardHeight + cardColumnYStart - cardHeight/2;
                 Vector3 destinationPos = new Vector3(newXPos, newYPos, 0);
                 cardPlayedObject.GetComponent<RectTransform>().localPosition = playedCardSpawnPos;
@@ -119,9 +120,11 @@ public class BattleSequence : MonoBehaviour
                 cardsPlayed++;
                 UpdatePlayerDeckCount(playerDeck.battleDeckList.Count);
                 yield return new WaitForSeconds(cardDelay);
-
+                lastAttack.myPowerText.text = Mathf.Max(0f,int.Parse(lastAttack.myPowerText.text) - playedPower).ToString();
             }
         }
+        
+        lastAttack.mySleepIcon.SetActive(true);
         lastAttack.used = true;
         CheckForBattleOver();
         attackPicker.resolvingAttack = false;

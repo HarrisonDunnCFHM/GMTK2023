@@ -12,6 +12,7 @@ public class CardDetails : MonoBehaviour
     public TextMeshProUGUI rulesText;
     public Image myIconImage;
     public Image myCardImage;
+    public GameObject myCritIcon;
     public List<Sprite> elementIcons;
     public List<Color> cardColors;
 
