@@ -35,6 +35,7 @@ public class MapManager : MonoBehaviour
     public List<BattleAttributes> battles;
 
     SceneChanger sceneChanger;
+    public FullDeckListViewer deckViewer;
 
     // Start is called before the first frame update
     void Start()
@@ -179,6 +180,10 @@ public class MapManager : MonoBehaviour
         offerMenu.SetActive(false);
         textPickDeck.SetActive(false);
         textPickCard.SetActive(false);
+        if (deckViewer.gameObject.activeSelf)
+        {
+            deckViewer.ShowDeckList();
+        }
     }
 
     public void SetUpBattles()
