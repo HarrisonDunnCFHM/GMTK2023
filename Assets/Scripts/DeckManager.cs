@@ -15,7 +15,7 @@ public class DeckManager : MonoBehaviour
         if (FindObjectOfType<BattleSequence>())
         {
             GenerateBattleDeck();
-            FindObjectOfType<BattleSequence>().UpdatePlayerDeckCount();
+            //FindObjectOfType<BattleSequence>().UpdatePlayerDeckCount();
         }
     }
 

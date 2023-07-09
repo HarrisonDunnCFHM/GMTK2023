@@ -2,18 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class BattleSequence : MonoBehaviour
 {
 
     [SerializeField] private EnemyAttackPicker attackPicker;
     [SerializeField] DeckManager playerDeck;
-    Vector3 playerDeckLocation;
     [SerializeField] float cardDelay = 0.2f;
-    [SerializeField] GameObject cardPrefab;
+    [SerializeField] GameObject cardThumbPrefab;
+    [SerializeField] Vector3 playedCardSpawnPos;
 
-    [SerializeField] TextMeshProUGUI currentPlayerPowerText;
-    [SerializeField] TextMeshProUGUI deckSizeText;
+    //[SerializeField] TextMeshProUGUI currentPlayerPowerText;
+    //[SerializeField] TextMeshProUGUI deckSizeText;
+
+    [SerializeField] TextMeshProUGUI tutorialText;
 
     int currentPlayerPower = 0;
     int cardsLeftInDeck = 0;
@@ -23,44 +26,69 @@ public class BattleSequence : MonoBehaviour
     [SerializeField] GameObject winMenuPopup;
     [SerializeField] GameObject lossMenuPopup;
     [SerializeField] GameObject gameOverMenuPopUp;
+    [SerializeField] Canvas mainCanvas;
+    [SerializeField] RunStats runStats;
+    [SerializeField] Image runUIDeckImage;
+    [SerializeField] TextMeshProUGUI runUIDeckSize;
 
-    // Start is called before the first frame update
+    [SerializeField] List<Sprite> deckSprites;
+
     void Start()
     {
-        playerDeckLocation = playerDeck.transform.position;
+        runStats.inBattle = true;
+        UpdatePlayerDeckCount(playerDeck.deckList.Count);
+        if(PlayerData.runProgress <= 1)
+        {
+            tutorialText.gameObject.SetActive(true);
+        }
     }
 
-    public void UpdatePlayerDeckCount()
-    {
-        cardsLeftInDeck = playerDeck.battleDeckList.Count;
-    }
-
-
-    // Update is called once per frame
     void Update()
     {
-        currentPlayerPowerText.text = "Current Attack Power: " + currentPlayerPower.ToString();
-        deckSizeText.text = "Cards left in deck: " + cardsLeftInDeck;
+    }
+    public void UpdatePlayerDeckCount(int listCount)
+    {
+        cardsLeftInDeck = listCount;
+        runUIDeckSize.text = "Cards Left: " + cardsLeftInDeck.ToString() + "/" + PlayerData.deckList.Count;
+        if(cardsLeftInDeck == 0)
+        {
+            runUIDeckImage.sprite = deckSprites[5];
+        }
+        else if (cardsLeftInDeck == 1)
+        {
+            runUIDeckImage.sprite = deckSprites[4];
+        }
+        else if (cardsLeftInDeck == 2)
+        {
+            runUIDeckImage.sprite = deckSprites[3];
+        }
+        else if (cardsLeftInDeck < 5)
+        {
+            runUIDeckImage.sprite = deckSprites[2];
+        }
+        else if (cardsLeftInDeck < 10)
+        {
+            runUIDeckImage.sprite = deckSprites[1];
+        }
+        else 
+        {
+            runUIDeckImage.sprite = deckSprites[0];
+        }
     }
 
     public IEnumerator PlayOutAttack()
     {
-        if (playedCardsList.Count > 0)
-        {
-            foreach (GameObject card in playedCardsList)
-            {
-                Destroy(card);
-            }
-            playedCardsList = new();
-        }
+        yield return new WaitForSeconds(cardDelay);
         currentPlayerPower = 0;
         EnemyAttack lastAttack = attackPicker.lastAttack;
         int enemyAttack = attackPicker.lastAttackStrength;
         Element enemyElement = attackPicker.lastAttackElement;
+        float newXPos = lastAttack.myAttackColumnXValue;
+        float cardColumnYStart = lastAttack.myAttackColumnYValue;
         int cardsPlayed = 0;
+        float cardHeight = cardThumbPrefab.GetComponent<RectTransform>().rect.height;
         while (currentPlayerPower < enemyAttack)
         {
-            yield return new WaitForSeconds(cardDelay);
             if (playerDeck.battleDeckList.Count <= 0)
             {
                 Debug.Log("out of cards!");
@@ -80,12 +108,18 @@ public class BattleSequence : MonoBehaviour
                     playedPower *= 2;
                 }
                 currentPlayerPower += playedPower;
-                GameObject cardPlayedObject = Instantiate(cardPrefab, transform.position, Quaternion.identity);
-                cardPlayedObject.GetComponentInChildren<TextMeshProUGUI>().text = playedElement.ToString() + " " + playedPower.ToString() + matchingElement;
-                cardPlayedObject.transform.position = new Vector3 (playerDeckLocation.x + cardsPlayed, playerDeckLocation.y,0);
+                GameObject cardPlayedObject = Instantiate(cardThumbPrefab, transform.position, Quaternion.identity, mainCanvas.transform);
+                cardPlayedObject.GetComponent<CardDetails>().SetDetails(nextPlayed);
+                float newYPos = (cardsPlayed + 1) * cardHeight + cardColumnYStart - cardHeight/2;
+                Vector3 destinationPos = new Vector3(newXPos, newYPos, 0);
+                cardPlayedObject.GetComponent<RectTransform>().localPosition = playedCardSpawnPos;
+                StartCoroutine(cardPlayedObject.GetComponent<CardDetails>().MoveCard(playedCardSpawnPos, destinationPos, cardDelay));
+
                 playedCardsList.Add(cardPlayedObject);
                 cardsPlayed++;
-                //if (CheckForBattleOver()) { break; }
+                UpdatePlayerDeckCount(playerDeck.battleDeckList.Count);
+                yield return new WaitForSeconds(cardDelay);
+
             }
         }
         lastAttack.used = true;

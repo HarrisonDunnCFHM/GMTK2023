@@ -29,4 +29,16 @@ public class CardDetails : MonoBehaviour
         powerText.text = inputCard.power.ToString();
         rulesText.text = inputCard.rules;
     }
+
+    public IEnumerator MoveCard(Vector3 startPos, Vector3 endPos, float time)
+    {
+        float elapsed = 0f;
+        while (elapsed < time)
+        {
+            GetComponent<RectTransform>().localPosition = Vector3.Lerp(startPos, endPos, elapsed/time);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        GetComponent<RectTransform>().localPosition = endPos;
+    }
 }

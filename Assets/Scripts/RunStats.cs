@@ -12,6 +12,8 @@ public class RunStats : MonoBehaviour
     [SerializeField] TextMeshProUGUI winsCountText;
     [SerializeField] TextMeshProUGUI deckSizeText;
 
+    public bool inBattle = false;
+
 
     // Start is called before the first frame update
     void Start()
@@ -39,6 +41,7 @@ public class RunStats : MonoBehaviour
             }
         }
         winsCountText.text = "Wins: " + PlayerData.winsThisRun + "/10";
+        if (inBattle) { return; }
         if(PlayerData.deckList == null) { return; }
         deckSizeText.text = "Deck Size: " + PlayerData.deckList.Count;
     }

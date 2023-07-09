@@ -19,6 +19,9 @@ public class EnemyAttack : MonoBehaviour
 
     public List<Sprite> allEnemySprites;
     public List<Sprite> allElementIcons;
+
+    public float myAttackColumnXValue;
+    public float myAttackColumnYValue;
     
     // Start is called before the first frame update
     void Start()
@@ -55,11 +58,11 @@ public class EnemyAttack : MonoBehaviour
     {
         if (used)
         {
-            myEnemySprite.color = new Color(myEnemySprite.color.r, myEnemySprite.color.g, myEnemySprite.color.b, 0.5f);
+            myEnemySprite.color = new Color(myEnemySprite.color.r, .5f, .5f, 0.25f);
         }
         else
         {
-            myEnemySprite.color = new Color(myEnemySprite.color.r, myEnemySprite.color.g, myEnemySprite.color.b, 1f);
+            myEnemySprite.color = new Color(myEnemySprite.color.r, 1f, 1f, 1f);
         }
     }
 }

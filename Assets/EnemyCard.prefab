@@ -75,8 +75,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -478,6 +478,8 @@ MonoBehaviour:
   - {fileID: -1002865817, guid: efcbb0777c558794fb0bde8659519899, type: 3}
   - {fileID: -560226239, guid: efcbb0777c558794fb0bde8659519899, type: 3}
   - {fileID: -216652780, guid: efcbb0777c558794fb0bde8659519899, type: 3}
+  myAttackColumnXValue: 0
+  myAttackColumnYValue: 0
 --- !u!1 &8731800656046244298
 GameObject:
   m_ObjectHideFlags: 0
