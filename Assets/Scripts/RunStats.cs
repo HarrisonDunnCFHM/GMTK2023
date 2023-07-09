@@ -38,7 +38,7 @@ public class RunStats : MonoBehaviour
                 heartBank[hearts].sprite = heartBrokenSprite;
             }
         }
-        winsCountText.text = "Wins: " + PlayerData.winsThisRun;
+        winsCountText.text = "Wins: " + PlayerData.winsThisRun + "/10";
         if(PlayerData.deckList == null) { return; }
         deckSizeText.text = "Deck Size: " + PlayerData.deckList.Count;
     }

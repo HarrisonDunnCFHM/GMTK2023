@@ -120,6 +120,7 @@ public class BattleSequence : MonoBehaviour
 
     public void ResolveBattle(bool winStatus)
     {
+        if (battleOver) { return; }
         battleOver = true;
         PlayerData.SaveDeckList(playerDeck.deckList);
         PlayerData.runProgress++;
