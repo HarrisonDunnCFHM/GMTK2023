@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d33a216d6ad5124f8464581e09c4d8e, type: 3}
-  m_Name: FireTest2
+  m_Script: {fileID: 11500000, guid: b4e9a448a09c7f34aa53cb843a817a93, type: 3}
+  m_Name: EarthTest5 1
   m_EditorClassIdentifier: 
-  power: 2
-  element: 1
-  rules: 
+  strength: 6
+  element: 0
+  used: 0

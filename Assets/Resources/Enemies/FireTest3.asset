@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: FireTest3
   m_EditorClassIdentifier: 
   strength: 3
-  element: 0
+  element: 1
   used: 0

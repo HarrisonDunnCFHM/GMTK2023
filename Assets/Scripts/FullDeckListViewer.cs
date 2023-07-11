@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FullDeckListViewer : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class FullDeckListViewer : MonoBehaviour
     [SerializeField] GameObject deckListWindow;
     [SerializeField] float cardSpacingModifier;
     [SerializeField] float deckScale = 0.75f;
+    [SerializeField] GameObject myButton;
 
     public List<GameObject> generatedDeck;
     List<PlayerCardAttributes> currentDeckList;
@@ -17,6 +19,18 @@ public class FullDeckListViewer : MonoBehaviour
     private void Awake()
     {
         generatedDeck = new();
+    }
+
+    private void Update()
+    {
+        if(PlayerData.deckList == null)
+        {
+            myButton.GetComponent<Button>().interactable = false; ;
+        }
+        else
+        {
+            myButton.GetComponent<Button>().interactable = true; ;
+        }
     }
 
     public void ShowDeckList()
@@ -56,10 +70,10 @@ public class FullDeckListViewer : MonoBehaviour
 
     public void ToggleDeckWindow()
     {
-        if(deckListWindow.activeSelf)
+        if (generatedDeck.Count > 0)
         {
             DestroyGeneratedDeck();
-            deckListWindow.SetActive(false);
+            //deckListWindow.SetActive(false);
         }
         else
         {

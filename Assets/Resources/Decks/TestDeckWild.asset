@@ -18,4 +18,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3889e99dc6154794c984d514065c7ece, type: 2}
   - {fileID: 11400000, guid: b40d264d81bc1144e8ff07c1fed1b7e0, type: 2}
   isStarter: 1
-  isUnlocked: 1
+  isUnlocked: 0

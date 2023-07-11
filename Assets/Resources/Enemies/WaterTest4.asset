@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: WaterTest4
   m_EditorClassIdentifier: 
   strength: 4
-  element: 1
+  element: 2
   used: 0

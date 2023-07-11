@@ -435,6 +435,7 @@ GameObject:
   - component: {fileID: 2501508885477913452}
   - component: {fileID: 8014895221940419900}
   - component: {fileID: 7102535192344958983}
+  - component: {fileID: 316946224340003059}
   m_Layer: 5
   m_Name: EnemyCard
   m_TagString: Untagged
@@ -558,6 +559,23 @@ MonoBehaviour:
   - {fileID: -216652780, guid: efcbb0777c558794fb0bde8659519899, type: 3}
   myAttackColumnXValue: 0
   myAttackColumnYValue: 0
+--- !u!114 &316946224340003059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8158066448943845873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!1 &8731800656046244298
 GameObject:
   m_ObjectHideFlags: 0
@@ -570,13 +588,14 @@ GameObject:
   - component: {fileID: 8364536700747721305}
   - component: {fileID: 1197769718399365341}
   - component: {fileID: 3549452073839725704}
+  - component: {fileID: 173176307514989132}
   m_Layer: 5
   m_Name: Shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7540545642009812282
 RectTransform:
   m_ObjectHideFlags: 0
@@ -656,3 +675,20 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: -10
   m_TargetDisplay: 0
+--- !u!114 &173176307514989132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8731800656046244298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295

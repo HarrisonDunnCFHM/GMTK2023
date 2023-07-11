@@ -109,6 +109,7 @@ public class EnemyAttackPicker : MonoBehaviour
 
     public void HideObject(GameObject objectToHide)
     {
+        if (resolvingAttack) { return; }
         objectToHide.SetActive(false);
     }
 

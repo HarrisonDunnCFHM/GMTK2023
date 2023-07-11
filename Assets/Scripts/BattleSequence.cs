@@ -12,6 +12,7 @@ public class BattleSequence : MonoBehaviour
     [SerializeField] float cardDelay = 0.2f;
     [SerializeField] GameObject cardThumbPrefab;
     [SerializeField] Vector3 playedCardSpawnPos;
+    [SerializeField] DeckList unlockDeck;
 
     //[SerializeField] TextMeshProUGUI currentPlayerPowerText;
     //[SerializeField] TextMeshProUGUI deckSizeText;
@@ -33,8 +34,11 @@ public class BattleSequence : MonoBehaviour
 
     [SerializeField] List<Sprite> deckSprites;
 
+    AudioManager audioManager;
+
     void Start()
     {
+        audioManager = FindObjectOfType<AudioManager>();
         runStats.inBattle = true;
         UpdatePlayerDeckCount(playerDeck.deckList.Count);
         if(PlayerData.runProgress <= 1)
@@ -100,7 +104,6 @@ public class BattleSequence : MonoBehaviour
                 cardsLeftInDeck = playerDeck.battleDeckList.Count;
                 Element playedElement = nextPlayed.element;
                 int playedPower = nextPlayed.power;
-                currentPlayerPower += playedPower;
                 GameObject cardPlayedObject = Instantiate(cardThumbPrefab, transform.position, Quaternion.identity, mainCanvas.transform);
                 CardDetails cardDetails = cardPlayedObject.GetComponent<CardDetails>();
                 cardDetails.SetDetails(nextPlayed);
@@ -110,7 +113,9 @@ public class BattleSequence : MonoBehaviour
                     cardDetails.powerText.text = (playedPower * 2).ToString() ;
                     cardDetails.powerText.fontSize *= 1.5f;
                     cardDetails.powerText.fontStyle = FontStyles.Bold;
+                    playedPower *= 2;
                 }
+                currentPlayerPower += playedPower;
                 float newYPos = (cardsPlayed + 1) * cardHeight + cardColumnYStart - cardHeight/2;
                 Vector3 destinationPos = new Vector3(newXPos, newYPos, 0);
                 cardPlayedObject.GetComponent<RectTransform>().localPosition = playedCardSpawnPos;
@@ -161,7 +166,9 @@ public class BattleSequence : MonoBehaviour
         battleOver = true;
         PlayerData.SaveDeckList(playerDeck.deckList);
         PlayerData.runProgress++;
-        if(winStatus)
+        unlockDeck.isUnlocked = true;
+        unlockDeck.isStarter = true;
+        if (winStatus)
         {
             //do good stuff
             PlayerData.winsThisRun++;
@@ -171,11 +178,16 @@ public class BattleSequence : MonoBehaviour
         {
             //uh oh
             PlayerData.UpdateLives(-1);
-            if(PlayerData.lives <= 0)
+            if (PlayerData.lives <= 0)
             {
+                audioManager = FindObjectOfType<AudioManager>();
+                audioManager.FadeToTrack(2);
                 gameOverMenuPopUp.SetActive(true);
             }
-            lossMenuPopup.SetActive(true);
+            else
+            {
+                lossMenuPopup.SetActive(true);
+            }
         }
     }
 }

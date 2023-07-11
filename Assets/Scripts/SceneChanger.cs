@@ -5,8 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class SceneChanger : MonoBehaviour
 {
+    public AudioManager audioManager; 
+
     private void Start()
     {
+        audioManager = FindObjectOfType<AudioManager>();
         if(CardManager.allDecks.Count == 0)
         {
             CardManager.InitializeDecksList();
@@ -39,11 +42,15 @@ public class SceneChanger : MonoBehaviour
 
     public void LoadMainMenu()
     {
+        audioManager = FindObjectOfType<AudioManager>();
+        audioManager.FadeToTrack(0);
         SceneManager.LoadScene(0);
     }
 
     public void LoadMapScene()
     {
+        audioManager = FindObjectOfType<AudioManager>();
+        audioManager.FadeToTrack(1);
         SceneManager.LoadScene(1);
     }
 

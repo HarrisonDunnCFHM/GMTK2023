@@ -27,8 +27,13 @@ public class MapManager : MonoBehaviour
     [SerializeField] GameObject cardThumbPrefab;
     [SerializeField] GameObject cardFullPrefab;
     [SerializeField] GameObject selectButtonPrefab;
+    [SerializeField] GameObject portalButtonPrefab;
     [SerializeField] Canvas mainCanvas;
     [SerializeField] int maxBattles = 3;
+
+    [SerializeField] List<Sprite> elementIcons;
+    [SerializeField] List<Sprite> elementPortals;
+
 
     List<DeckList> deckOffer;
     List<PlayerCardAttributes> cardOffer;
@@ -180,7 +185,7 @@ public class MapManager : MonoBehaviour
         offerMenu.SetActive(false);
         textPickDeck.SetActive(false);
         textPickCard.SetActive(false);
-        if (deckViewer.gameObject.activeSelf)
+        if (deckViewer.generatedDeck.Count > 0)
         {
             deckViewer.ShowDeckList();
         }
@@ -193,26 +198,38 @@ public class MapManager : MonoBehaviour
         //create battle buttons
         //max 3 battles?
         int battlesToGenerate = battles.Count;
-        float buttonWidth = selectButtonPrefab.GetComponent<RectTransform>().rect.width;
+        float buttonWidth = portalButtonPrefab.GetComponent<RectTransform>().rect.width;
         for (int battle = 0; battle < battlesToGenerate; battle++)
         {
             int tempBattleNum = battle;
-            GameObject battleButton = Instantiate(selectButtonPrefab, transform.position, Quaternion.identity, mainCanvas.transform);
+            GameObject battleButton = Instantiate(portalButtonPrefab, transform.position, Quaternion.identity, mainCanvas.transform);
             //battleButton.transform.parent = mainCanvas.transform;
             float newXPos = ((buttonWidth * battle) - (buttonWidth * (battlesToGenerate - 1 )/ 2)) * deckSpacingModifier;
-            battleButton.transform.localPosition = new Vector3(newXPos, 0, 0);
+            battleButton.transform.localPosition = new Vector3(newXPos, 100, 0);
             //battle details text
             List<TextMeshProUGUI> battleTexts = battleButton.GetComponentsInChildren<TextMeshProUGUI>().ToList();
             foreach(TextMeshProUGUI text in battleTexts)
             {
                 if(text.name == "Choice Details")
                 {
-                    text.text = battles[tempBattleNum].totalPower + " power // " + battles[tempBattleNum].totalAttacks + " spirits ("
-                        + battles[tempBattleNum].preferredElement.ToString() + ")";
+                    text.text = "Spirits: " + battles[tempBattleNum].totalAttacks + " \n" + "Total Power: " + battles[tempBattleNum].totalPower;
                 }
                 else
                 {
                     text.text = "Choose Portal";
+                }
+            }
+            List<Image> buttonImages = battleButton.GetComponentsInChildren<Image>().ToList();
+            foreach (Image image in buttonImages)
+            {
+                int elementIndex = (int)battles[tempBattleNum].preferredElement;
+                if (image.name == "Portal Image")
+                {
+                    image.sprite = elementPortals[elementIndex];
+                }
+                else if (image.name == "Icon")
+                {
+                    image.sprite = elementIcons[elementIndex];
                 }
             }
             battleButton.GetComponent<Button>().onClick.AddListener(() => SelectNextBattle(battles[tempBattleNum]));

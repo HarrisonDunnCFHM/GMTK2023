@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: EarthTest3
   m_EditorClassIdentifier: 
   strength: 3
-  element: 2
+  element: 0
   used: 0
