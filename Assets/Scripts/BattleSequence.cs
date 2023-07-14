@@ -181,7 +181,7 @@ public class BattleSequence : MonoBehaviour
             if (PlayerData.lives <= 0)
             {
                 audioManager = FindObjectOfType<AudioManager>();
-                audioManager.FadeToTrack(2);
+                audioManager.InitiateMusicFade(2);
                 gameOverMenuPopUp.SetActive(true);
             }
             else

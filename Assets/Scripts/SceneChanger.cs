@@ -43,14 +43,14 @@ public class SceneChanger : MonoBehaviour
     public void LoadMainMenu()
     {
         audioManager = FindObjectOfType<AudioManager>();
-        audioManager.FadeToTrack(0);
+        audioManager.InitiateMusicFade(0);
         SceneManager.LoadScene(0);
     }
 
     public void LoadMapScene()
     {
         audioManager = FindObjectOfType<AudioManager>();
-        audioManager.FadeToTrack(1);
+        audioManager.InitiateMusicFade(1);
         SceneManager.LoadScene(1);
     }
 
