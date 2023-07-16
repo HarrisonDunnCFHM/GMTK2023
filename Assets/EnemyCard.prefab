@@ -496,7 +496,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -1319636323, guid: de44d5e74799be748be7626efe5217d2, type: 3}
+  m_Sprite: {fileID: 1185412661, guid: 2c7fd831a9697bd4ca6610f57a69c9de, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -548,15 +548,15 @@ MonoBehaviour:
   myEnemyShadowSprite: {fileID: 1197769718399365341}
   mySleepIcon: {fileID: 6817288474456895328}
   allEnemySprites:
-  - {fileID: -895886653, guid: de44d5e74799be748be7626efe5217d2, type: 3}
-  - {fileID: -1319636323, guid: de44d5e74799be748be7626efe5217d2, type: 3}
-  - {fileID: 2023308494, guid: de44d5e74799be748be7626efe5217d2, type: 3}
-  - {fileID: -1105750149, guid: de44d5e74799be748be7626efe5217d2, type: 3}
+  - {fileID: -400670305, guid: 2c7fd831a9697bd4ca6610f57a69c9de, type: 3}
+  - {fileID: -437675050, guid: 2c7fd831a9697bd4ca6610f57a69c9de, type: 3}
+  - {fileID: 1185412661, guid: 2c7fd831a9697bd4ca6610f57a69c9de, type: 3}
+  - {fileID: 811396653, guid: 2c7fd831a9697bd4ca6610f57a69c9de, type: 3}
   allElementIcons:
-  - {fileID: 1754283555, guid: efcbb0777c558794fb0bde8659519899, type: 3}
-  - {fileID: -1002865817, guid: efcbb0777c558794fb0bde8659519899, type: 3}
-  - {fileID: -560226239, guid: efcbb0777c558794fb0bde8659519899, type: 3}
-  - {fileID: -216652780, guid: efcbb0777c558794fb0bde8659519899, type: 3}
+  - {fileID: 514496967, guid: dd876f07c581866418f6f4960ba5d82b, type: 3}
+  - {fileID: 1077431468, guid: dd876f07c581866418f6f4960ba5d82b, type: 3}
+  - {fileID: 1587123581, guid: dd876f07c581866418f6f4960ba5d82b, type: 3}
+  - {fileID: -1410534971, guid: dd876f07c581866418f6f4960ba5d82b, type: 3}
   myAttackColumnXValue: 0
   myAttackColumnYValue: 0
 --- !u!114 &316946224340003059

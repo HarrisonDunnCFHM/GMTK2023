@@ -44,7 +44,7 @@ public class BattleSequence : MonoBehaviour
         audioManager = FindObjectOfType<AudioManager>();
         runStats.inBattle = true;
         UpdatePlayerDeckCount(playerDeck.deckList.Count);
-        if(PlayerData.runProgress <= 1)
+        if(PlayerData.runProgress < 1)
         {
             tutorialText.gameObject.SetActive(true);
         }
