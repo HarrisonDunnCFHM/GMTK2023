@@ -34,6 +34,9 @@ public class BattleSequence : MonoBehaviour
 
     [SerializeField] List<Sprite> deckSprites;
 
+    PlayerCardAttributes topCardInDeck;
+    GameObject topCardObject;
+
     AudioManager audioManager;
 
     void Start()
@@ -49,6 +52,7 @@ public class BattleSequence : MonoBehaviour
 
     void Update()
     {
+        ShowTopCardOfDeck();
     }
     public void UpdatePlayerDeckCount(int listCount)
     {
@@ -77,6 +81,27 @@ public class BattleSequence : MonoBehaviour
         else 
         {
             runUIDeckImage.sprite = deckSprites[0];
+        }
+    }
+
+    private void ShowTopCardOfDeck()
+    {
+        if(playerDeck.battleDeckList.Count == 0)
+        {
+            Destroy(topCardObject);
+            return; 
+        }
+        if (topCardInDeck == null || topCardInDeck != playerDeck.battleDeckList[0]) 
+        {
+            if(topCardObject != null)
+            {
+                Destroy(topCardObject);
+            }
+            topCardObject = Instantiate(cardThumbPrefab, transform.position, Quaternion.identity, mainCanvas.transform);
+            CardDetails cardDetails = topCardObject.GetComponent<CardDetails>();
+            cardDetails.SetDetails(playerDeck.battleDeckList[0]);
+            topCardObject.GetComponent<RectTransform>().localPosition = playedCardSpawnPos;
+            topCardInDeck = playerDeck.battleDeckList[0];
         }
     }
 

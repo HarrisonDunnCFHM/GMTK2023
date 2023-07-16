@@ -66,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1663639894, guid: f72103805235ec147a4469bcda74b44b, type: 3}
+  m_Sprite: {fileID: -1583186401, guid: 773596f42f430ff45ae8132d139e05ae, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -146,7 +146,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 3ddb0cea24a0a884e9efd558960ead2b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5dc459555a287ad4bbf4f69bc56bbb66, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -263,8 +263,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Wins: 99'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 4347c2638f913e243a28e644bf120af6, type: 2}
+  m_sharedMaterial: {fileID: 3267151991253040534, guid: 4347c2638f913e243a28e644bf120af6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -288,10 +288,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
+  m_fontSize: 22.35
   m_fontSizeBase: 36
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -396,7 +396,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 310561551, guid: d87e7d94c26874e499ded225cddd8c4a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f925b3edbf1da574692a2e6cbeedddb8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -524,10 +524,11 @@ MonoBehaviour:
   - {fileID: 8513108161938733590}
   - {fileID: 8513108161753800640}
   - {fileID: 8513108161140858302}
-  heartFullSprite: {fileID: 2114581403, guid: d87e7d94c26874e499ded225cddd8c4a, type: 3}
-  heartBrokenSprite: {fileID: 310561551, guid: d87e7d94c26874e499ded225cddd8c4a, type: 3}
+  heartFullSprite: {fileID: 21300000, guid: f925b3edbf1da574692a2e6cbeedddb8, type: 3}
+  heartBrokenSprite: {fileID: 589637242, guid: dd876f07c581866418f6f4960ba5d82b, type: 3}
   winsCountText: {fileID: 8513108161140357905}
   deckSizeText: {fileID: 8513108161842603238}
+  inBattle: 0
 --- !u!1 &8513108161753800646
 GameObject:
   m_ObjectHideFlags: 0
@@ -594,7 +595,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 2114581403, guid: d87e7d94c26874e499ded225cddd8c4a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f925b3edbf1da574692a2e6cbeedddb8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -639,7 +640,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 305, y: -5}
+  m_AnchoredPosition: {x: 287, y: -5}
   m_SizeDelta: {x: 250.0402, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8513108161842603239
@@ -672,8 +673,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Deck Size: 99'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 4347c2638f913e243a28e644bf120af6, type: 2}
+  m_sharedMaterial: {fileID: 3267151991253040534, guid: 4347c2638f913e243a28e644bf120af6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -697,10 +698,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
+  m_fontSize: 22.35
   m_fontSizeBase: 36
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -805,7 +806,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 2114581403, guid: d87e7d94c26874e499ded225cddd8c4a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f925b3edbf1da574692a2e6cbeedddb8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: ed386943f2ad6d4479212586917592f3
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Elementary Gothic Bookhand
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: b3180112425ee5c4c979e069a7b6beab, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
