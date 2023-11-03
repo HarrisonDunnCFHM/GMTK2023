@@ -63,16 +63,19 @@ public class EnemyAttackPicker : MonoBehaviour
         if (attackList.Count == 0) { return; }
         generatedAttacksList = new();
         float cardCount = attackList.Count;
-        float cardWidth = enemyCardPrefab.GetComponent<RectTransform>().rect.width;
+        float cardWidth = enemyCardPrefab.GetComponent<SpriteRenderer>().size.x;
+        float screenAspect = (float)Screen.width / (float)Screen.height;
+        float screenHeight = Camera.main.orthographicSize * 2;
+        float screenWidth = screenHeight * screenAspect;
         for (int cardPos = 0; cardPos < cardCount; cardPos++)
         {
             float newXPos = ((cardWidth * cardPos) - (cardWidth * (cardCount -1) / 2)) * attackSpacingModifier ;
-            float newStartingYPos = mainCanvas.GetComponent<RectTransform>().rect.height / -2.5f;
-            float newEndingYPos = mainCanvas.GetComponent<RectTransform>().rect.height / -3.5f;
-            GameObject newAttackObj = Instantiate(enemyCardPrefab, transform.position, Quaternion.identity, mainCanvas.transform);
+            float newStartingYPos = screenHeight / -2.5f;
+            //float newEndingYPos = mainCanvas.GetComponent<RectTransform>().rect.height / -3.5f;
+            GameObject newAttackObj = Instantiate(enemyCardPrefab, transform.position, Quaternion.identity);
             Vector3 startingPos = new Vector3(newXPos, newStartingYPos, 0);
-            Vector3 endingPos = new Vector3(newXPos, newEndingYPos, 0);
-            newAttackObj.GetComponent<RectTransform>().localPosition = startingPos;
+            //Vector3 endingPos = new Vector3(newXPos, newEndingYPos, 0);
+            newAttackObj.transform.localPosition = startingPos;
             newAttackObj.GetComponentInChildren<TextMeshProUGUI>().text = attackList[cardPos].strength.ToString();
             EnemyAttack newAttack = newAttackObj.GetComponent<EnemyAttack>();
             int elementIndex = (int)attackList[cardPos].element;
@@ -80,30 +83,27 @@ public class EnemyAttackPicker : MonoBehaviour
             newAttack.myAttackAtributes = attackList[cardPos];
             newAttack.attackPicker = this;
             newAttack.myAttackColumnXValue = newXPos;
-            newAttack.myPowerText.gameObject.transform.parent = mainCanvas.transform;
-            newAttack.myElementIcon.gameObject.transform.parent = mainCanvas.transform;
+            //newAttack.myPowerText.gameObject.transform.parent = mainCanvas.transform;
+            //newAttack.myElementIcon.gameObject.transform.parent = mainCanvas.transform;
             generatedAttacksList.Add(newAttack);
             //create button to attack
-            GameObject attackButton = Instantiate(selectButtonPrefab, transform.position, Quaternion.identity, mainCanvas.transform);
-            float newButtonYPos = enemyCardPrefab.GetComponent<RectTransform>().rect.height/2 + 
-                selectButtonPrefab.GetComponent<RectTransform>().rect.height*1.5f + newStartingYPos;
-            attackButton.GetComponent<RectTransform>().localPosition = new Vector3(newXPos, newButtonYPos, 0);
-            newAttack.myAttackColumnYValue = newButtonYPos + selectButtonPrefab.GetComponent<RectTransform>().rect.height / 2;
-            TextMeshProUGUI[] allTexts = attackButton.GetComponentsInChildren<TextMeshProUGUI>();
-            foreach(TextMeshProUGUI text in allTexts)
-            {
-                if(text.name == "Choice Details")
-                {
-                    text.text = "";
-                }
-                else
-                {
-                    text.text = "Guide";
-                }
-            }
-            attackButton.GetComponent<Button>().onClick.AddListener(() => newAttack.GetAttacked());
-            attackButton.GetComponent<Button>().onClick.AddListener(() => StartCoroutine(newAttack.MoveCard(startingPos, endingPos ,0.2f)));
-            attackButton.GetComponent<Button>().onClick.AddListener(() => HideObject(attackButton));
+            //GameObject attackButton = Instantiate(selectButtonPrefab, transform.position, Quaternion.identity, mainCanvas.transform);
+            //float newButtonYPos = enemyCardPrefab.GetComponent<RectTransform>().rect.height/2 + 
+            //    selectButtonPrefab.GetComponent<RectTransform>().rect.height*1.5f + newStartingYPos;
+            //attackButton.GetComponent<RectTransform>().localPosition = new Vector3(newXPos, newButtonYPos, 0);
+            newAttack.myAttackColumnYValue = newStartingYPos ; //+ selectButtonPrefab.GetComponent<RectTransform>().rect.height / 2;
+            //TextMeshProUGUI[] allTexts = attackButton.GetComponentsInChildren<TextMeshProUGUI>();
+            //foreach(TextMeshProUGUI text in allTexts)
+            //{
+            //    if(text.name == "Choice Details")
+            //    {
+            //        text.text = "";
+            //    }
+            //    else
+            //    {
+            //        text.text = "Guide";
+            //    }
+            //}
         }
     }
 

@@ -239,10 +239,20 @@ public class MapManager : MonoBehaviour
 
     public List<BattleAttributes> GenerateDynamicBattles()
     {
+
+        //Get Player Deck Power
+        int playerDeckPower = 0;
+        foreach (PlayerCardAttributes card in PlayerData.deckList)
+        {
+            playerDeckPower += card.power;
+        }
+
         //get all attacks
         List<EnemyAttackAttributes> allAttacks = new(Resources.LoadAll<EnemyAttackAttributes>("Enemies").ToList());
         //refine attacks based on progression
         List<EnemyAttackAttributes> possibleAttacks = new();
+
+       
         int currentProgress = PlayerData.runProgress + PlayerData.winsThisRun;
         foreach(EnemyAttackAttributes attack in allAttacks)
         {
@@ -256,7 +266,7 @@ public class MapManager : MonoBehaviour
         {
             possibleAttacks = allAttacks;
         }
-        //generate 3 battles with max total strength defied by run progress?
+        //generate 3 battles with max total strength defined by run progress?
         List<BattleAttributes> newBattles = new();
         currentProgress = (PlayerData.runProgress + PlayerData.winsThisRun + 1) * Mathf.Max(PlayerData.winsThisRun, 3);
         for(int battle = 0; battle < 3; battle++)

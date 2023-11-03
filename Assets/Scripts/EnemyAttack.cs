@@ -10,12 +10,13 @@ public class EnemyAttack : MonoBehaviour
     public EnemyAttackAttributes myAttackAtributes;
     public EnemyAttackPicker attackPicker;
     public bool used;
-    private SpriteRenderer myRenderer;
+    public float moveUpAmount;
+    public float moveUpTime; 
 
     public TextMeshProUGUI myPowerText;
     public Image myElementIcon;
-    public Image myEnemySprite;
-    public Image myEnemyShadowSprite;
+    public SpriteRenderer myEnemySprite;
+    public SpriteRenderer myEnemyShadowSprite;
     public GameObject mySleepIcon;
 
     public List<Sprite> allEnemySprites;
@@ -27,7 +28,6 @@ public class EnemyAttack : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        myRenderer = GetComponent<SpriteRenderer>();
 
     }
 
@@ -36,6 +36,13 @@ public class EnemyAttack : MonoBehaviour
     {
         DisplayUsedStatus();
     }
+
+    private void OnMouseUpAsButton()
+    {
+        GetAttacked();
+    }
+
+
 
     public void SetSprites(int elementIndex)
     {
@@ -46,12 +53,14 @@ public class EnemyAttack : MonoBehaviour
     
     public void GetAttacked()
     {
+        if (attackPicker.resolvingAttack) { return; }
         if (used) { return; }
         if (FindObjectOfType<BattleSequence>().battleOver)
         {
             return;
         }
         attackPicker.UseAttack(this, myAttackAtributes.strength, myAttackAtributes.element);
+        StartCoroutine(MoveCard());
     }
 
     private void DisplayUsedStatus()
@@ -66,15 +75,17 @@ public class EnemyAttack : MonoBehaviour
         }
     }
 
-    public IEnumerator MoveCard(Vector3 startPos, Vector3 endPos, float time)
+    public IEnumerator MoveCard()
     {
-        float elapsed = 0f;
-        while (elapsed < time)
+        float elapsed = 0f; 
+        Vector3 startPos = transform.localPosition;
+        Vector3 endPos = new(transform.localPosition.x, transform.localPosition.y + moveUpAmount, transform.localPosition.z);
+        while (elapsed < moveUpTime)
         {
-            GetComponent<RectTransform>().localPosition = Vector3.Lerp(startPos, endPos, elapsed / time);
+            transform.localPosition = Vector3.Lerp(startPos, endPos, elapsed / moveUpTime);
             elapsed += Time.deltaTime;
             yield return null;
         }
-        GetComponent<RectTransform>().localPosition = endPos;
+        transform.localPosition = endPos;
     }
 }

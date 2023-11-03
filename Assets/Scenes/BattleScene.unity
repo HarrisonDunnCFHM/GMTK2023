@@ -940,7 +940,7 @@ MonoBehaviour:
   lastAttackElement: 0
   resolvingAttack: 0
   mainCanvas: {fileID: 1017590709}
-  enemyCardPrefab: {fileID: 8158066448943845873, guid: f643854c4072cc148b49d039f0589341, type: 3}
+  enemyCardPrefab: {fileID: 2052779525128208845, guid: f6d7a2de33d959d4a8e80d1ec9b36e5c, type: 3}
   selectButtonPrefab: {fileID: 1481790811421211633, guid: 616b367c24c17c14c8534a5fd756392f, type: 3}
 --- !u!4 &579842103
 Transform:
@@ -1714,7 +1714,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1021879028
 RectTransform:
   m_ObjectHideFlags: 0
